@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+/* Стили для select элементов */
+select {
+  color: rgb(15 23 42); /* slate-900 */
+}
+
+select option {
+  background-color: white;
+  color: rgb(15 23 42); /* slate-900 */
+}
+
+/* Темная тема для select */
+@media (prefers-color-scheme: dark) {
+  select {
+    color: rgb(241 245 249); /* slate-100 */
+  }
+  
+  select option {
+    background-color: rgb(15 23 42); /* slate-900 */
+    color: rgb(241 245 249); /* slate-100 */
+  }
+}
+
+/* Дополнительные стили для темной темы */
+.dark select {
+  color: rgb(241 245 249); /* slate-100 */
+}
+
+.dark select option {
+  background-color: rgb(15 23 42); /* slate-900 */
+  color: rgb(241 245 249); /* slate-100 */
+}
