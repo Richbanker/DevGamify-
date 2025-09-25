@@ -1,0 +1,10 @@
+node_modules
+coverage
+e2e
+.github
+.husky
+*.log
+.DS_Store
+playwright-report
+test-results
+tsconfig.tsbuildinfo
