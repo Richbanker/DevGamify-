@@ -1,5 +1,8 @@
 # DevGamify 
 
+
+[![Просмотры README](https://vbr.nathanchung.dev/badge?page_id=Richbanker.DevGamify-&text=README_Views)](https://github.com/Richbanker/DevGamify-)
+
 Приложение для геймификации разработки - превращаем работу в игру!
 
 
