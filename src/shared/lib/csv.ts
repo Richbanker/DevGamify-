@@ -3,7 +3,7 @@ export function toCsv(rows: Array<Record<string, unknown>>) {
   const headers = Object.keys(rows[0] ?? {})
   const escape = (v: unknown) => {
     const s = v == null ? '' : String(v)
-    if (/[",\n]/.test(s)) return '"' + s.replace(/"/g, '""') + '"'
+    if (/[",\r\n]/.test(s)) return '"' + s.replace(/"/g, '""') + '"'
     return s
   }
   const lines = [headers.join(',')]
