@@ -17,7 +17,9 @@ export function addDays(date: Date, days: number) {
 }
 
 export function formatISODate(date: Date) {
-  return startOfDay(date).toISOString()
+  const local = startOfDay(date)
+  const offset = local.getTimezoneOffset() * 60_000
+  return new Date(local.getTime() - offset).toISOString()
 }
 
 export function rangeDays(from: Date, to: Date) {
