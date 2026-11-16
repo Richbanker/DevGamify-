@@ -9,5 +9,9 @@ export function readJson<T>(key: string, fallback: T): T {
 }
 
 export function writeJson<T>(key: string, value: T) {
-  localStorage.setItem(key, JSON.stringify(value))
+  try {
+    localStorage.setItem(key, JSON.stringify(value))
+  } catch (error) {
+    console.warn(`Unable to persist local data for ${key}`, error)
+  }
 }
