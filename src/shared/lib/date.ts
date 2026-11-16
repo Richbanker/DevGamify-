@@ -24,6 +24,7 @@ export function rangeDays(from: Date, to: Date) {
   const res: Date[] = []
   let d = startOfDay(from)
   const end = startOfDay(to)
+  if (d > end) return res
   while (d <= end) {
     res.push(new Date(d))
     d = addDays(d, 1)
