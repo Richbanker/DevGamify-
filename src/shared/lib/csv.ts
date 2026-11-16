@@ -2,7 +2,8 @@ export function toCsv(rows: Array<Record<string, unknown>>) {
   if (!rows.length) return ''
   const headers = Object.keys(rows[0] ?? {})
   const escape = (v: unknown) => {
-    const s = v == null ? '' : String(v)
+    const raw = v == null ? '' : String(v)
+    const s = /^[\t\r\n ]*[=+@-]/.test(raw) ? `'${raw}` : raw
     if (/[",\n]/.test(s)) return '"' + s.replace(/"/g, '""') + '"'
     return s
   }
