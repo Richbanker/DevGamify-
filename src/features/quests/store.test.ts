@@ -24,7 +24,7 @@ describe('quest completion rewards', () => {
     useQuestStore.getState().add(quest)
     useQuestStore.getState().complete(quest.id)
     expect(useUserStore.getState().user.xp).toBe(20)
-    expect(useQuestStore.getState().quests[0].status).toBe('Done')
+    expect(useQuestStore.getState().quests[0]?.status).toBe('Done')
 
     useQuestStore.getState().complete(quest.id)
     expect(useUserStore.getState().user.xp).toBe(20)
