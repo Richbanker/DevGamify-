@@ -37,14 +37,16 @@ export const useQuestStore = create<QuestStore>()(
       remove: (id) => set((s) => ({ quests: s.quests.filter((x) => x.id !== id) })),
       setFilters: (f) => set(() => ({ filters: f })),
       complete: (id) => {
+        const quest = useQuestStore.getState().quests.find((x) => x.id === id)
+        if (!quest || quest.status === 'Done') return
+
         const now = new Date().toISOString()
         set((s) => ({
           quests: s.quests.map((x) =>
             x.id === id ? { ...x, status: 'Done', completedAt: now } : x
           ),
         }))
-        const q = useQuestStore.getState().quests.find((x) => x.id === id)
-        if (q) useUserStore.getState().grantXp(q.rewardXp)
+        useUserStore.getState().grantXp(quest.rewardXp)
         useStatsStore.getState().recalc()
         useAchievementStore.getState().recalc()
       },
