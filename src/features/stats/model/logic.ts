@@ -16,14 +16,19 @@ export function computeStats(quests: Quest[], today: Date): Stats {
     cursor = addDays(cursor, -1)
   }
 
+  const nextDay = addDays(sod, 1)
   const startOfWeek = addDays(sod, -6)
-  const weeklyDone = done.filter(
-    (q) => new Date(q.completedAt || q.createdAt) >= startOfWeek
-  ).length
+  const weeklyDone = done.filter((q) => {
+    const completedAt = new Date(q.completedAt || q.createdAt)
+    return completedAt >= startOfWeek && completedAt < nextDay
+  }).length
 
   const startOfMonth = new Date(sod.getFullYear(), sod.getMonth(), 1)
   const monthlyXp = done
-    .filter((q) => new Date(q.completedAt || q.createdAt) >= startOfMonth)
+    .filter((q) => {
+      const completedAt = new Date(q.completedAt || q.createdAt)
+      return completedAt >= startOfMonth && completedAt < nextDay
+    })
     .reduce((s, q) => s + q.rewardXp, 0)
 
   const categoryTotals: Record<string, number> = {}

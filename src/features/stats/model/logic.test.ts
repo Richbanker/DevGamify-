@@ -29,4 +29,17 @@ describe('stats', () => {
     expect(s.streakDays).toBe(3)
     expect(s.monthlyXp).toBe(115)
   })
+  it('does not include future completions in this week or month', () => {
+    const today = new Date(2025, 8, 24, 12)
+    const todayDone = new Date(2025, 8, 24, 9).toISOString()
+    const tomorrowDone = new Date(2025, 8, 25, 9).toISOString()
+    const quests: Quest[] = [
+      q({ completedAt: todayDone, rewardXp: 20 }),
+      q({ completedAt: tomorrowDone, rewardXp: 100 }),
+    ]
+    const stats = computeStats(quests, today)
+    expect(stats.weeklyDoneCount).toBe(1)
+    expect(stats.monthlyXp).toBe(20)
+  })
+
 })
