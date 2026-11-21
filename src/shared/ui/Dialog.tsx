@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { useEffect } from 'react'
+import { useEffect, useId } from 'react'
 
 type Props = {
   open: boolean
@@ -9,6 +9,8 @@ type Props = {
 }
 
 export function Dialog({ open, onClose, title, children }: Props) {
+  const titleId = useId()
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
@@ -23,10 +25,12 @@ export function Dialog({ open, onClose, title, children }: Props) {
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       aria-modal="true"
       role="dialog"
+      aria-labelledby={title ? titleId : undefined}
+      aria-label={title ? undefined : 'Диалог'}
     >
       <button className="absolute inset-0 bg-black/50" aria-label="Close" onClick={onClose} />
       <div className="relative w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-4 shadow-xl dark:border-slate-800 dark:bg-slate-950">
-        {title && <h2 className="mb-3 text-lg font-semibold">{title}</h2>}
+        {title && <h2 id={titleId} className="mb-3 text-lg font-semibold">{title}</h2>}
         {children}
       </div>
     </div>
