@@ -3,15 +3,21 @@ import { useEffect, useState } from 'react'
 type Lang = 'en' | 'ru'
 
 export function LanguageSwitch() {
-  const [lang, setLang] = useState<Lang>('en')
+  const [lang, setLang] = useState<Lang>(() => {
+    try {
+      const stored = localStorage.getItem('lang')
+      return stored === 'ru' || stored === 'en' ? stored : 'en'
+    } catch {
+      return 'en'
+    }
+  })
 
   useEffect(() => {
-    const stored = localStorage.getItem('lang') as Lang | null
-    if (stored) setLang(stored)
-  }, [])
-
-  useEffect(() => {
-    localStorage.setItem('lang', lang)
+    try {
+      localStorage.setItem('lang', lang)
+    } catch {
+      // Language switching still works when storage is unavailable.
+    }
     document.documentElement.lang = lang
   }, [lang])
 
