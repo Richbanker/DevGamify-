@@ -3,6 +3,7 @@ type Props = { seed: string; size?: number }
 export function Avatar({ seed, size = 40 }: Props) {
   const initials =
     seed
+      .trim()
       .split(/\s+/)
       .map((s) => s[0]?.toUpperCase() || '')
       .slice(0, 2)
