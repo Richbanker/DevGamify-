@@ -23,6 +23,7 @@ export function CommandPalette({ open, onClose }: Props) {
   return (
     <Dialog open={open} onClose={onClose} title="Поиск по квестам (Ctrl/Cmd+K)">
       <input
+        aria-label="Поиск по квестам"
         placeholder="Введите запрос..."
         value={q}
         onChange={(e) => setQ(e.target.value)}
