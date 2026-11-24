@@ -1,20 +1,23 @@
 import { useEffect, useState } from 'react'
 
 export function ThemeSwitch() {
-  const [dark, setDark] = useState(false)
-
-  useEffect(() => {
-    const stored = localStorage.getItem('theme')
-    const isDark = stored
-      ? stored === 'dark'
-      : window.matchMedia('(prefers-color-scheme: dark)').matches
-    setDark(isDark)
-    document.documentElement.classList.toggle('dark', isDark)
-  }, [])
+  const [dark, setDark] = useState(() => {
+    try {
+      const stored = localStorage.getItem('theme')
+      if (stored === 'dark' || stored === 'light') return stored === 'dark'
+    } catch {
+      // The browser may block storage.
+    }
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+  })
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', dark)
-    localStorage.setItem('theme', dark ? 'dark' : 'light')
+    try {
+      localStorage.setItem('theme', dark ? 'dark' : 'light')
+    } catch {
+      // Theme remains usable without persistence.
+    }
   }, [dark])
 
   return (
