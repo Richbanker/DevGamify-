@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useUserStore } from '../../features/user/store'
 import { Avatar } from '../../shared/ui/Avatar'
 import { Input } from '../../shared/ui/Input'
@@ -10,6 +11,7 @@ import { appDataSchema } from '../../shared/lib/serialization'
 import { generateDemoQuests } from '../../shared/lib/demo'
 
 export function SettingsPage() {
+  const [importError, setImportError] = useState('')
   const userStore = useUserStore()
   const achStore = useAchievementStore()
   const questStore = useQuestStore()
@@ -75,9 +77,16 @@ export function SettingsPage() {
                 onChange={async (e) => {
                   const file = e.target.files?.[0]
                   if (!file) return
-                  const text = await file.text()
-                  const parsed = JSON.parse(text)
-                  const data = appDataSchema.parse(parsed)
+                  e.target.value = ''
+                  setImportError('')
+                  let data
+                  try {
+                    const text = await file.text()
+                    data = appDataSchema.parse(JSON.parse(text))
+                  } catch {
+                    setImportError('Не удалось импортировать файл: неверный формат JSON или структура данных.')
+                    return
+                  }
                   userStore.reset()
                   achStore.reset()
                   statsStore.reset()
@@ -110,6 +119,7 @@ export function SettingsPage() {
               Demo Data
             </Button>
           </div>
+          {importError && <p role="alert" className="mt-2 text-sm text-red-600">{importError}</p>}
         </Card>
       </div>
     </div>
