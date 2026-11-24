@@ -12,10 +12,12 @@ export function useHotkeys(map: Map) {
         e.key.toLowerCase(),
       ].filter(Boolean)
       const combo = parts.join('+')
-      const fn =
-        map[combo] ||
-        (e.key.toLowerCase() === 'k' && (e.ctrlKey || e.metaKey) ? map['mod+k'] : undefined)
+      const fn = map[combo]
       if (fn) {
+        if (e.repeat) {
+          e.preventDefault()
+          return
+        }
         e.preventDefault()
         fn(e)
       }
