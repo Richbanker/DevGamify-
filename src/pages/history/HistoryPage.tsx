@@ -8,11 +8,17 @@ export function HistoryPage() {
   const [range, setRange] = useState<'7' | '30' | '90'>('30')
   const filtered = useMemo(() => {
     const days = Number(range)
-    const from = new Date(Date.now() - days * 24 * 60 * 60 * 1000)
+    const now = Date.now()
+    const from = now - days * 24 * 60 * 60 * 1000
+    const completedTime = (q: (typeof quests)[number]) =>
+      new Date(q.completedAt || q.createdAt).getTime()
     return quests
       .filter((q) => q.status === 'Done')
-      .filter((q) => new Date(q.completedAt || q.createdAt) >= from)
-      .sort((a, b) => (b.completedAt || b.createdAt).localeCompare(a.completedAt || a.createdAt))
+      .filter((q) => {
+        const time = completedTime(q)
+        return time >= from && time <= now
+      })
+      .sort((a, b) => completedTime(b) - completedTime(a))
   }, [quests, range])
 
   return (
