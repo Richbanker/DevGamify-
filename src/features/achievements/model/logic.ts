@@ -26,6 +26,7 @@ export function evaluateAchievements(achievements: Achievement[], quests: Quest[
   const daysWithDone = new Set(
     done
       .map((q) => new Date(q.completedAt || q.createdAt))
+      .filter((d) => Number.isFinite(d.getTime()))
       .map((d) => new Date(d.getFullYear(), d.getMonth(), d.getDate()).toISOString())
   )
   if (daysWithDone.size >= 3) unlock('consistency-1')
