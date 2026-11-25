@@ -4,7 +4,7 @@ import { useStatsStore } from '../../features/stats/store'
 import { Progress } from '../../shared/ui/Progress'
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import { useMemo } from 'react'
-import { rangeDays } from '../../shared/lib/date'
+import { addDays, rangeDays, startOfDay } from '../../shared/lib/date'
 import { useQuestStore } from '../../features/quests/store'
 import { Button } from '../../shared/ui/Button'
 
@@ -14,14 +14,17 @@ export function DashboardPage() {
   const questStore = useQuestStore()
 
   const data = useMemo(() => {
-    const days = rangeDays(new Date(Date.now() - 1000 * 60 * 60 * 24 * 29), new Date())
-    return days.map((d) => {
-      const day = d.toISOString().slice(0, 10)
-      const xp = questStore.quests
-        .filter((q) => q.status === 'Done' && (q.completedAt || q.createdAt).slice(0, 10) === day)
-        .reduce((s, q) => s + q.rewardXp, 0)
-      return { day: d.toLocaleDateString(), xp }
-    })
+    const today = new Date()
+    const days = rangeDays(addDays(today, -29), today)
+    const xpByDay = new Map<number, number>()
+    for (const q of questStore.quests) {
+      if (q.status !== 'Done') continue
+      const completed = new Date(q.completedAt || q.createdAt)
+      if (!Number.isFinite(completed.getTime())) continue
+      const day = startOfDay(completed).getTime()
+      xpByDay.set(day, (xpByDay.get(day) ?? 0) + q.rewardXp)
+    }
+    return days.map((d) => ({ day: d.toLocaleDateString(), xp: xpByDay.get(d.getTime()) ?? 0 }))
   }, [questStore.quests])
 
   return (
