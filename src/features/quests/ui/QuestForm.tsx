@@ -49,7 +49,13 @@ export function QuestForm({ initial, onSubmit }: Props) {
           id="title"
           {...form.register('title')}
           aria-invalid={!!form.formState.errors.title}
+          aria-describedby={form.formState.errors.title ? 'title-error' : undefined}
         />
+        {form.formState.errors.title && (
+          <p id="title-error" role="alert" className="mt-1 text-sm text-red-600 dark:text-red-400">
+            Введите название квеста
+          </p>
+        )}
       </div>
       <div>
         <label htmlFor="description" className="mb-1 block text-sm">
@@ -72,7 +78,18 @@ export function QuestForm({ initial, onSubmit }: Props) {
           <label htmlFor="category" className="mb-1 block text-sm">
             Категория
           </label>
-          <Input id="category" {...form.register('category')} placeholder="react, ts, ui..." />
+          <Input
+            id="category"
+            {...form.register('category')}
+            placeholder="react, ts, ui..."
+            aria-invalid={!!form.formState.errors.category}
+            aria-describedby={form.formState.errors.category ? 'category-error' : undefined}
+          />
+          {form.formState.errors.category && (
+            <p id="category-error" role="alert" className="mt-1 text-sm text-red-600 dark:text-red-400">
+              Введите категорию
+            </p>
+          )}
         </div>
         <div>
           <label htmlFor="difficulty" className="mb-1 block text-sm">
@@ -96,7 +113,18 @@ export function QuestForm({ initial, onSubmit }: Props) {
           <label htmlFor="xp" className="mb-1 block text-sm">
             XP
           </label>
-          <Input id="xp" type="number" {...form.register('rewardXp', { valueAsNumber: true })} />
+          <Input
+            id="xp"
+            type="number"
+            {...form.register('rewardXp', { valueAsNumber: true })}
+            aria-invalid={!!form.formState.errors.rewardXp}
+            aria-describedby={form.formState.errors.rewardXp ? 'xp-error' : undefined}
+          />
+          {form.formState.errors.rewardXp && (
+            <p id="xp-error" role="alert" className="mt-1 text-sm text-red-600 dark:text-red-400">
+              XP должно быть целым числом не меньше 1
+            </p>
+          )}
         </div>
       </div>
       <div className="flex justify-end gap-2 pt-2">
