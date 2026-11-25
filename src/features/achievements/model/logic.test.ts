@@ -27,6 +27,13 @@ function done(date: string, category = 'react'): Quest {
 }
 
 describe('achievements', () => {
+  it('ignores invalid completion dates when counting distinct days', () => {
+    const quests = [done('2025-09-24'), done('2025-09-23'), done('invalid')]
+    const res = evaluateAchievements(baseAch, quests, new Date('2025-09-24'))
+    expect(res.find((a) => a.id === 'first-steps')?.unlocked).toBe(true)
+    expect(res.find((a) => a.id === 'consistency-1')?.unlocked).toBe(false)
+  })
+
   it('unlocks first steps and consistency', () => {
     const quests = [done('2025-09-24'), done('2025-09-23'), done('2025-09-22')]
     const res = evaluateAchievements(baseAch, quests, new Date('2025-09-24'))
