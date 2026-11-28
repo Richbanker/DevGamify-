@@ -40,7 +40,7 @@ export function QuestsPage() {
         </div>
       </div>
 
-      <Card className="p-0">
+      <Card className="overflow-x-auto p-0">
         <table className="w-full text-sm">
           <thead>
             <tr className="text-left text-slate-500">
