@@ -41,8 +41,8 @@ export function AppLayout() {
   return (
     <div className="min-h-full bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
       <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur dark:border-slate-800 dark:bg-slate-950/80">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-          <nav className="flex items-center gap-4 text-sm">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-4 py-3">
+          <nav className="flex flex-wrap items-center gap-4 text-sm">
             <NavLink
               to="/"
               className={({ isActive }) =>
@@ -92,7 +92,7 @@ export function AppLayout() {
               {t('about')}
             </NavLink>
           </nav>
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-2">
             {mounted && <LanguageSwitch />}
             {mounted && <ThemeSwitch />}
           </div>
